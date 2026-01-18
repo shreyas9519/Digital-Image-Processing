@@ -1,0 +1,180 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>histogram_equalization</title><meta name="generator" content="MATLAB 9.10"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2026-01-18"><meta name="DC.source" content="histogram_equalization.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Histogram Equalization</a></li><li><a href="#2">Example(Wikipedia) - Hardcoded Histogram Equalisation</a></li><li><a href="#3">Self-Built Histogram Equalisation Operation</a></li><li><a href="#4">In-built operator</a></li></ul></div><h2 id="1">Histogram Equalization</h2><p>Input: Image Output: Image (Histogram Equalised)</p><pre class="codeinput">clc;
+clear <span class="string">all</span>;
+close <span class="string">all</span>;
+</pre><h2 id="2">Example(Wikipedia) - Hardcoded Histogram Equalisation</h2><pre class="codeinput">myImage =  [52	55	61	59	79	61	76	61
+            62	59	55	104	94	85	59	71
+            63	65	66	113	144	104	63	72
+            64	70	70	126	154	109	71	69
+            67	73	68	106	122	88	68	68
+            68	79	60	70	77	66	58	75
+            69	85	64	58	55	61	65	83
+            70	87	69	68	65	73	78	90];
+myImage = cast(myImage, <span class="string">"uint8"</span>);
+subplot(3,2,1);
+imshow(myImage);
+title(<span class="string">"Original-Image"</span>);
+
+eq_img_1 = [0	12	53	32	190	53	174	53
+            57	32	12	227	219	202	32	154
+            65	85	93	239	251	227	65	158
+            73	146	146	247	255	235	154	130
+            97	166	117	231	243	210	117	117
+            117	190	36	146	178	93	20	170
+            130	202	73	20	12	53	85	194
+            146	206	130	117	85	166	182	215];
+
+eq_img_1 = cast(eq_img_1, <span class="string">"uint8"</span>);
+subplot(3,2,2), imshow(eq_img_1), title(<span class="string">"Hard-Coded h(v)from wikipedia"</span>);
+subplot(3,2,5), imhist(myImage), title(<span class="string">"Original Histogram"</span>);
+</pre><img vspace="5" hspace="5" src="histogram_equalization_01.png" alt=""> <h2 id="3">Self-Built Histogram Equalisation Operation</h2><pre class="codeinput">[R,C] = size(myImage);
+counts = imhist(myImage);
+cdf_counts = cumsum(counts);
+cdf_min = cdf_counts(find(cdf_counts &gt; 0, 1));
+L = 256; <span class="comment">% 8 bit image</span>
+eq_img_2 = zeros(R,C, <span class="string">"uint8"</span>);
+
+<span class="keyword">for</span> row = 1:R
+    <span class="keyword">for</span> col = 1:C
+        curr_pixel = myImage(row,col);
+        h_v = round(((cdf_counts(curr_pixel + 1) - cdf_min)/((R*C)-cdf_min))*(L-1));
+        eq_img_2(row,col) = h_v;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+subplot(3,2,3), imshow(eq_img_2), title(<span class="string">"Self-Built Operator"</span>);
+subplot(3,2,6), imhist(eq_img_2), title(<span class="string">"Equalised Histogram"</span>);
+</pre><img vspace="5" hspace="5" src="histogram_equalization_02.png" alt=""> <h2 id="4">In-built operator</h2><pre class="codeinput">eq_img_3 = histeq(myImage);
+subplot(3,2,4);
+imshow(eq_img_3);
+title(<span class="string">"In-Built Operator"</span>);
+</pre><img vspace="5" hspace="5" src="histogram_equalization_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Histogram Equalization
+% Input: Image
+% Output: Image (Histogram Equalised)
+clc;
+clear all;
+close all;
+
+%% Example(Wikipedia) - Hardcoded Histogram Equalisation
+myImage =  [52	55	61	59	79	61	76	61
+            62	59	55	104	94	85	59	71
+            63	65	66	113	144	104	63	72
+            64	70	70	126	154	109	71	69
+            67	73	68	106	122	88	68	68
+            68	79	60	70	77	66	58	75
+            69	85	64	58	55	61	65	83
+            70	87	69	68	65	73	78	90];
+myImage = cast(myImage, "uint8");
+subplot(3,2,1);
+imshow(myImage);
+title("Original-Image");
+
+eq_img_1 = [0	12	53	32	190	53	174	53
+            57	32	12	227	219	202	32	154
+            65	85	93	239	251	227	65	158
+            73	146	146	247	255	235	154	130
+            97	166	117	231	243	210	117	117
+            117	190	36	146	178	93	20	170
+            130	202	73	20	12	53	85	194
+            146	206	130	117	85	166	182	215];
+
+eq_img_1 = cast(eq_img_1, "uint8");
+subplot(3,2,2), imshow(eq_img_1), title("Hard-Coded h(v)from wikipedia");
+subplot(3,2,5), imhist(myImage), title("Original Histogram");
+
+
+%% Self-Built Histogram Equalisation Operation
+[R,C] = size(myImage);
+counts = imhist(myImage);
+cdf_counts = cumsum(counts);
+cdf_min = cdf_counts(find(cdf_counts > 0, 1));
+L = 256; % 8 bit image
+eq_img_2 = zeros(R,C, "uint8");
+
+for row = 1:R
+    for col = 1:C
+        curr_pixel = myImage(row,col);
+        h_v = round(((cdf_counts(curr_pixel + 1) - cdf_min)/((R*C)-cdf_min))*(L-1));
+        eq_img_2(row,col) = h_v;
+    end
+end
+subplot(3,2,3), imshow(eq_img_2), title("Self-Built Operator");
+subplot(3,2,6), imhist(eq_img_2), title("Equalised Histogram");
+
+%% In-built operator
+eq_img_3 = histeq(myImage);
+subplot(3,2,4);
+imshow(eq_img_3);
+title("In-Built Operator");
+
+##### SOURCE END #####
+--></body></html>
