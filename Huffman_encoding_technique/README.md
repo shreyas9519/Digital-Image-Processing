@@ -66,4 +66,4 @@ Example Output: Huffman Codes: Symbol A -> 11 Symbol B -> 10 Symbol C ->
 
 Average Code Length = 2.300 bits/symbol
 
-Author: [Your Name]
+Author: Shreyas Khare
