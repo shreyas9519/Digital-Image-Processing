@@ -33,4 +33,4 @@ Notes: - Bit Plane 1 shows fine details and noise. - Bit Plane 8 shows
 the main structure of the image. - This method is useful in image
 compression, watermarking, and steganography.
 
-Author: [Your Name]
+Author: Shreyas Khare
