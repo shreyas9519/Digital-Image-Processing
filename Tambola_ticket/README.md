@@ -52,4 +52,4 @@ Notes: - Every run produces a new valid ticket. - Numbers in each column
 are unique and sorted. - The script can be extended to generate multiple
 tickets or export them to Excel/PDF.
 
-Author: [Your Name]
+Author: Shreyas Khare
