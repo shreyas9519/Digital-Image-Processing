@@ -1,0 +1,1 @@
+This repository contains a collection of MATLAB-based mini projects and experiments related to Digital Image Processing and Data Encoding Techniques. Each folder focuses on a specific concept, implemented with practical examples and scripts.
