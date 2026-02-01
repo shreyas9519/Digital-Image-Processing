@@ -135,11 +135,11 @@ I_rec = ycbcr2rgb(Iycbcr_rec);
 %% 16. Final Visual Comparison
 figure("Name","JPEG Compression Result");
 
-subplot(2,1,1);
+subplot(1,2,1);
 imshow(I(1:H8,1:W8,:));
 title("Original Image");
 
-subplot(2,1,2);
+subplot(1,2,2);
 imshow(I_rec);
 title("JPEG Reconstructed Image");
 %% 17. Quality Metrics
@@ -148,3 +148,4 @@ psnr_val = 10*log10(255^2 / mse);
 
 fprintf("MSE  = %.4f\n", mse);
 fprintf("PSNR = %.2f dB\n", psnr_val);
+
